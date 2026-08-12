@@ -142,7 +142,7 @@ def get_sample_customers(limit: int = 50):
 
 @router.get("/customer/{sk_id}", response_model=RiskReportResponse)
 def predict_customer(sk_id: int):
-    """Looks up a customer profile by ID, predicts default probability, and explains risk factors using SHAP."""
+    global shap_service
     # Lazy load SHAP service if model trained in the background
     if shap_service is None:
         shap_service = get_shap_service()
