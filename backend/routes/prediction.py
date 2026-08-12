@@ -15,12 +15,17 @@ def get_raw_data():
     global raw_data
     if raw_data is None:
         raw_path = Path("data/raw/application_train.csv")
+        backup_path = Path("models/sample_profiles.csv")
         if raw_path.exists():
             print("Prediction API Router: Loading application_train.csv for lookups...")
             raw_data = pd.read_csv(raw_path, nrows=10000)
             print(f"Prediction API Router: Loaded {len(raw_data)} customer profiles.")
+        elif backup_path.exists():
+            print("Prediction API Router: Loading backup sample_profiles.csv for lookups...")
+            raw_data = pd.read_csv(backup_path)
+            print(f"Prediction API Router: Loaded {len(raw_data)} backup customer profiles.")
         else:
-            print("Prediction API Router Warning: application_train.csv not found.")
+            print("Prediction API Router Warning: No profile datasets found.")
             raw_data = pd.DataFrame()
     return raw_data
 
