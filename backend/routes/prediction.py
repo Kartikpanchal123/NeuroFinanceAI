@@ -27,7 +27,7 @@ def get_raw_data():
         raw_path = Path("data/raw/application_train.csv")
         if raw_path.exists():
             print("Prediction API Router: Loading application_train.csv for lookups...")
-            raw_data = pd.read_csv(raw_path)
+            raw_data = pd.read_csv(raw_path, nrows=10000)
             print(f"Prediction API Router: Loaded {len(raw_data)} customer profiles.")
         else:
             print("Prediction API Router Warning: application_train.csv not found.")
