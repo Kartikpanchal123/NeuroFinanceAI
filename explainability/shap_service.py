@@ -46,13 +46,16 @@ class NeuroFinanceSHAPService:
             
         # Initialize SHAP explainer
         self.explainer = None
-        try:
-            import shap
-            # shap.DeepExplainer requires a PyTorch model and background dataset
-            self.explainer = shap.DeepExplainer(self.model, self.background_tensor)
-            print("SHAP Service: shap.DeepExplainer initialized successfully!")
-        except Exception as e:
-            print(f"SHAP Service Warning: Failed to initialize shap.DeepExplainer: {e}. Fallback to gradient-based attribution is ready.")
+        if os.environ.get("RENDER") is None and os.environ.get("DISABLE_SHAP") != "true":
+            try:
+                import shap
+                # shap.DeepExplainer requires a PyTorch model and background dataset
+                self.explainer = shap.DeepExplainer(self.model, self.background_tensor)
+                print("SHAP Service: shap.DeepExplainer initialized successfully!")
+            except Exception as e:
+                print(f"SHAP Service Warning: Failed to initialize shap.DeepExplainer: {e}. Fallback to gradient-based attribution is ready.")
+        else:
+            print("SHAP Service: Running in memory-constrained cloud environment. Bypassing heavy SHAP imports to use PyTorch gradient attributions.")
 
     def explain(self, raw_customer_df, top_k=5):
         """
