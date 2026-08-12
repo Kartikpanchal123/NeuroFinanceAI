@@ -110,11 +110,11 @@ def analyze_document_risk(req: DocumentAnalyzeRequest):
         pass
         
     # 5. Run prediction and SHAP explanation on the modified record
-    if shap_service is None:
-        raise HTTPException(status_code=503, detail="Risk scoring model is not initialized yet.")
-        
+    from backend.routes.prediction import get_shap_service
+    active_shap_service = get_shap_service()
+    
     try:
-        report = shap_service.explain(customer_record.drop(columns=["TARGET"], errors="ignore"))
+        report = active_shap_service.explain(customer_record.drop(columns=["TARGET"], errors="ignore"))
         
         # Parse profile for return
         profile_dict = {}
