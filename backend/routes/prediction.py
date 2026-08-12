@@ -4,22 +4,12 @@ from typing import Dict, Any, List
 import pandas as pd
 import numpy as np
 from pathlib import Path
-from explainability.shap_service import NeuroFinanceSHAPService
 
 router = APIRouter(prefix="/api/prediction", tags=["prediction"])
 
 # Initialize SHAP service and load dataset for lookups
 shap_service = None
 raw_data = None
-
-try:
-    # Initialize the SHAP service
-    if Path("models/ft_transformer.pt").exists() and Path("models/preprocessor.pkl").exists():
-        shap_service = NeuroFinanceSHAPService()
-    else:
-        print("Prediction API Router Warning: Model weights or preprocessor not found. SHAP service will start in lazy load mode.")
-except Exception as e:
-    print(f"Prediction API Router Error: Could not initialize SHAP service: {e}")
 
 def get_raw_data():
     global raw_data
@@ -83,6 +73,7 @@ def predict_customer(sk_id: int):
     if shap_service is None:
         if Path("models/ft_transformer.pt").exists() and Path("models/preprocessor.pkl").exists():
             try:
+                from explainability.shap_service import NeuroFinanceSHAPService
                 shap_service = NeuroFinanceSHAPService()
             except Exception as e:
                 raise HTTPException(status_code=500, detail=f"Failed to initialize explainability service: {e}")
