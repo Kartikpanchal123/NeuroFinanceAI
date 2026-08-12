@@ -1,0 +1,24 @@
+RBI LENDING GUIDELINES - MASTER CIRCULAR ON RETAIL LOANS
+
+1. INTRODUCTION
+This Master Circular consolidates the instructions and guidelines issued by the Reserve Bank of India (RBI) to all commercial banks regarding retail and individual lending.
+
+2. LOAN-TO-VALUE (LTV) RATIOS FOR HOUSING LOANS
+Banks must adhere to the following Loan-to-Value (LTV) limits for individual housing loans:
+- For loans up to Rs. 30 Lakh: Maximum LTV ratio of 90%.
+- For loans between Rs. 30 Lakh and Rs. 75 Lakh: Maximum LTV ratio of 80%.
+- For loans above Rs. 75 Lakh: Maximum LTV ratio of 75%.
+
+3. DEBT-TO-INCOME AND AFFORDABILITY
+Banks must verify the repayment capacity of the borrower before sanctioning loans. 
+- The total monthly debt-service obligations (including the proposed loan EMI) should not exceed 50% to 60% of the borrower's verified net monthly income.
+- For borrowers with high-risk profiles (credit score below 650 or default history), the maximum annuity-to-income ratio should be limited to 40%.
+
+4. RESTRUCTURING AND FINANCIAL HEALTH IMPROVEMENT
+Borrowers who are facing temporary financial distress may request loan restructuring under the following conditions:
+- Extension of loan tenure, up to a maximum of 2 additional years, to reduce monthly EMI.
+- Temporary moratorium on principal payments for up to 6 months.
+- Borrowers are advised to improve their financial health score by:
+  a. Reducing outstanding credit card balances (aiming for utilization below 30%).
+  b. Paying off existing high-interest short-term personal loans.
+  c. Ensuring no late payments on active loans for at least 6 consecutive months.

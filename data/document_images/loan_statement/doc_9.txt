@@ -1,0 +1,5 @@
+LOAN ACC SUMMARY
+Borrower: Client Profile
+Outstanding Loan: 158000
+Monthly EMI Payment: 47000
+Status: Active

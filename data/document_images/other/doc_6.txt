@@ -1,0 +1,5 @@
+UTILITY BILL / INVOICE
+Customer Name: John Doe
+Bill Period: July 2026
+Total Amount Due: 4500
+Status: PAID

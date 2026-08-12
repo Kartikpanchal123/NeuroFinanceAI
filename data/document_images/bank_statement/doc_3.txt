@@ -1,0 +1,5 @@
+TRUST BANK STATEMENT
+Account Holder: Client Profile
+Average Balance: 259000
+Recent Deposits: 28000
+Delinquent Status: No

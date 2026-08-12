@@ -1,0 +1,4 @@
+APEX CARD INVOICE
+Credit Limit: 467000
+Outstanding Balance: 103000
+Minimum Due: 2500

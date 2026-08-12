@@ -1,0 +1,6 @@
+OFFICIAL PAYSLIP
+Employer: ABC Pvt Ltd
+Employment Type: part_time
+Monthly Income: 64000
+Net Pay: 64000 INR
+Pay Date: 30-July-2026

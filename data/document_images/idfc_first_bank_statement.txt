@@ -1,0 +1,14 @@
+STATEMENT OF ACCOUNT
+IDFC FIRST Bank
+CUSTOMER ID: 1027973948
+ACCOUNT NO: 10011233279
+STATEMENT PERIOD: 01-Jun-2021 To 13-Sep-2021
+CUSTOMER NAME: MR. MUBARAK KHAN
+ACCOUNT TYPE: Zero Balance Savings Account
+Opening Balance: 17.91
+Total Debit: 147103.00
+Total Credit: 147090.00
+Closing Balance: 4.91
+Average Balance: 58000
+Recent Deposits: 147090
+Delinquent Status: No

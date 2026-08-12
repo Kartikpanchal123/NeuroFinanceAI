@@ -1,0 +1,6 @@
+OFFICIAL PAYSLIP
+Employer: ABC Pvt Ltd
+Employment Type: full_time
+Monthly Income: 89000
+Net Pay: 89000 INR
+Pay Date: 30-July-2026
