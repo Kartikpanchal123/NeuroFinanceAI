@@ -77,14 +77,17 @@ def predict_customer(sk_id: int):
     global shap_service
     # Lazy load SHAP service if model trained in the background
     if shap_service is None:
-        if Path("models/ft_transformer.pt").exists() and Path("models/preprocessor.pkl").exists():
+        project_root = Path(__file__).resolve().parent.parent.parent
+        model_path = project_root / "models" / "ft_transformer.pt"
+        prep_path = project_root / "models" / "preprocessor.pkl"
+        if model_path.exists() and prep_path.exists():
             try:
                 from explainability.shap_service import NeuroFinanceSHAPService
                 shap_service = NeuroFinanceSHAPService()
             except Exception as e:
                 raise HTTPException(status_code=500, detail=f"Failed to initialize explainability service: {e}")
         else:
-            raise HTTPException(status_code=503, detail="Model training is not complete yet.")
+            raise HTTPException(status_code=503, detail=f"Model files not found. Checked: {model_path} and {prep_path}")
 
     df = get_raw_data()
     if df.empty:
