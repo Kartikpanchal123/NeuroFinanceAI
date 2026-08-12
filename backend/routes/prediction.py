@@ -14,8 +14,9 @@ raw_data = None
 def get_raw_data():
     global raw_data
     if raw_data is None:
-        raw_path = Path("data/raw/application_train.csv")
-        backup_path = Path("models/sample_profiles.csv")
+        project_root = Path(__file__).resolve().parent.parent.parent
+        raw_path = project_root / "data" / "raw" / "application_train.csv"
+        backup_path = project_root / "models" / "sample_profiles.csv"
         if raw_path.exists():
             print("Prediction API Router: Loading application_train.csv for lookups...")
             raw_data = pd.read_csv(raw_path, nrows=10000)
