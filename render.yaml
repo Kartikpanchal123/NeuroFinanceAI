@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: neurofinance-api
+    env: docker
+    dockerfilePath: Dockerfile
+    port: 8080
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: true
