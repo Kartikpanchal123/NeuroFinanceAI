@@ -40,11 +40,14 @@ async def classify_document(file: UploadFile = File(...)):
     if not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="Only image files (.jpg, .jpeg, .png) are supported.")
         
-    # Save file with a unique name to allow concurrent previews
+    # Save file with a unique name to allow concurrent previews and keep filename keyword hints
     ext = Path(file.filename).suffix
     if not ext:
         ext = ".jpg"
-    unique_filename = f"{uuid.uuid4()}{ext}"
+    original_stem = Path(file.filename).stem
+    # Replace non-alphanumeric characters with underscores
+    clean_stem = re.sub(r'[^a-zA-Z0-9_-]', '_', original_stem)
+    unique_filename = f"{clean_stem}_{uuid.uuid4().hex[:8]}{ext}"
     dest_path = UPLOAD_DIR / unique_filename
     
     try:

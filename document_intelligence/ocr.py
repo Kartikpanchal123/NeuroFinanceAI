@@ -19,40 +19,61 @@ def extract_text(image_path):
             
     # 2. Mock generation fallback based on file path content
     path_str = str(img_path).lower()
+    import hashlib
+    # Generate a stable numerical seed based on the file name to keep results consistent for the same file
+    fn_hash = int(hashlib.md5(img_path.name.encode('utf-8')).hexdigest(), 16)
     
-    if "payslip" in path_str:
+    # Check if a specific monthly salary or balance is embedded in the filename (e.g. Payslip_85000.jpg)
+    embedded_num = None
+    num_matches = re.findall(r'\b\d{4,6}\b', img_path.name)
+    if num_matches:
+        embedded_num = int(num_matches[0])
+    
+    if "payslip" in path_str or "salary" in path_str or "income" in path_str:
+        salary = embedded_num if embedded_num else 45000 + (fn_hash % 81) * 1000  # 45k to 125k INR
+        employers = ["ABC Technologies Pvt Ltd", "TCS Ltd", "Infosys Limited", "Cognizant Technology", "Wipro Limited"]
+        employer = employers[fn_hash % len(employers)]
         return (
-            "NEUROFINANCE OFFICIAL PAYSLIP\n"
-            "Employer: ABC Technologies Pvt Ltd\n"
-            "Employee Name: John Doe\n"
-            "Employment Type: full_time\n"
-            "Monthly Income: 75000\n"
-            "Net Pay: 75000 INR\n"
-            "Pay Date: 30-July-2026\n"
+            f"NEUROFINANCE OFFICIAL PAYSLIP\n"
+            f"Employer: {employer}\n"
+            f"Employee Name: Kartik Panchal\n"
+            f"Employment Type: full_time\n"
+            f"Monthly Income: {salary}\n"
+            f"Net Pay: {salary} INR\n"
+            f"Pay Date: 30-July-2026\n"
         )
-    elif "bank_statement" in path_str:
+    elif "bank" in path_str or "statement" in path_str:
+        balance = embedded_num if (embedded_num and embedded_num > 5000) else 50000 + (fn_hash % 251) * 1000  # 50k to 300k INR
+        deposits = 10000 + (fn_hash % 71) * 1000  # 10k to 80k INR
+        delinquent = "Yes" if (fn_hash % 12 == 0) else "No"  # ~8% chance of delinquency alert
+        banks = ["GLOBAL TRUST BANK", "HDFC BANK", "ICICI BANK", "SBI BANK", "AXIS BANK"]
+        bank = banks[fn_hash % len(banks)]
         return (
-            "GLOBAL TRUST BANK - STATEMENT OF ACCOUNT\n"
-            "Account Holder: John Doe\n"
-            "Average Balance: 120000\n"
-            "Recent Deposits: 45000\n"
-            "Delinquent Status: No\n"
-            "Overdraft Limits: 0\n"
+            f"{bank} - STATEMENT OF ACCOUNT\n"
+            f"Account Holder: Kartik Panchal\n"
+            f"Average Balance: {balance}\n"
+            f"Recent Deposits: {deposits}\n"
+            f"Delinquent Status: {delinquent}\n"
+            f"Overdraft Limits: 0\n"
         )
-    elif "loan_statement" in path_str:
+    elif "loan" in path_str:
+        loan_amount = embedded_num if embedded_num else 100000 + (fn_hash % 41) * 10000  # 100k to 500k INR
+        emi = int(loan_amount * 0.05)
         return (
-            "CREST LOAN ACCOUNT SUMMARY\n"
-            "Borrower ID: John Doe\n"
-            "Outstanding Loan: 250000\n"
-            "Monthly EMI Payment: 12500\n"
-            "Status: Active\n"
+            f"CREST LOAN ACCOUNT SUMMARY\n"
+            f"Borrower Name: Kartik Panchal\n"
+            f"Outstanding Loan: {loan_amount}\n"
+            f"Monthly EMI Payment: {emi}\n"
+            f"Status: Active\n"
         )
-    elif "credit_card_statement" in path_str:
+    elif "card" in path_str or "credit" in path_str:
+        limit = embedded_num if embedded_num else 100000 + (fn_hash % 16) * 10000  # 100k to 250k INR
+        balance = int(limit * (0.1 + (fn_hash % 6) * 0.1))
         return (
-            "APEX CREDIT CARD MONTHLY INVOICE\n"
-            "Credit Limit: 150000\n"
-            "Outstanding Balance: 45000\n"
-            "Minimum Due: 2500\n"
+            f"APEX CREDIT CARD MONTHLY INVOICE\n"
+            f"Credit Limit: {limit}\n"
+            f"Outstanding Balance: {balance}\n"
+            f"Minimum Due: {int(balance * 0.05)}\n"
         )
         
     return "UNKNOWN DOCUMENT TYPE\nNo OCR text could be parsed.\n"
