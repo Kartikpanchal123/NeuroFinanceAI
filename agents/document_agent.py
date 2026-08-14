@@ -55,11 +55,14 @@ class DocumentAgent:
             }
             
         # Get baseline risk
+        from backend.routes.prediction import get_shap_service
+        active_shap_service = get_shap_service()
+        
         baseline_prob = 0.0
         baseline_health = 0.0
-        if shap_service is not None:
+        if active_shap_service is not None:
             try:
-                base_rep = shap_service.explain(customer_record.drop(columns=["TARGET"], errors="ignore"))
+                base_rep = active_shap_service.explain(customer_record.drop(columns=["TARGET"], errors="ignore"))
                 baseline_prob = base_rep["default_probability"]
                 baseline_health = base_rep["financial_health_score"]
             except Exception:
@@ -83,9 +86,9 @@ class DocumentAgent:
         new_category = "Unknown"
         factors_text = ""
         
-        if shap_service is not None:
+        if active_shap_service is not None:
             try:
-                new_rep = shap_service.explain(customer_record.drop(columns=["TARGET"], errors="ignore"))
+                new_rep = active_shap_service.explain(customer_record.drop(columns=["TARGET"], errors="ignore"))
                 new_prob = new_rep["default_probability"]
                 new_health = new_rep["financial_health_score"]
                 new_category = new_rep["risk_category"]
