@@ -5,6 +5,7 @@ import shutil
 import uuid
 from pathlib import Path
 import pandas as pd
+import re
 import numpy as np
 
 from document_intelligence.predict import DocumentIntelligencePredictor
