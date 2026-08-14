@@ -21,13 +21,16 @@ class NeuroFinanceRAGService:
         
         # Load embedding model
         self.embed_model = None
-        try:
-            from sentence_transformers import SentenceTransformer
-            print("RAG Service: Loading sentence-transformer model (all-MiniLM-L6-v2)...")
-            self.embed_model = SentenceTransformer("all-MiniLM-L6-v2")
-            print("RAG Service: Embedding model loaded successfully!")
-        except Exception as e:
-            print(f"RAG Service Warning: Failed to load embedding model: {e}. Fallback to keyword-matching search is active.")
+        if os.environ.get("RENDER") is None:
+            try:
+                from sentence_transformers import SentenceTransformer
+                print("RAG Service: Loading sentence-transformer model (all-MiniLM-L6-v2)...")
+                self.embed_model = SentenceTransformer("all-MiniLM-L6-v2")
+                print("RAG Service: Embedding model loaded successfully!")
+            except Exception as e:
+                print(f"RAG Service Warning: Failed to load embedding model: {e}. Fallback to keyword-matching search is active.")
+        else:
+            print("RAG Service: Running on Render (memory-constrained). Bypassing heavy SentenceTransformer loading to avoid OOM.")
             
         # Setup ChromaDB client
         self.chroma_client = None
