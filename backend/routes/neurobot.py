@@ -232,5 +232,31 @@ def handle_chat(req: ChatRequest):
                 return ChatResponse(intent=intent, answer=f"Document analysis failed:\n{res['report']}")
         except Exception as e:
             return ChatResponse(intent=intent, answer=f"Document Agent error: {e}")
+    elif intent == "GENERAL":
+        api_key = os.getenv("GEMINI_API_KEY")
+        if api_key and api_key != "your_key_here":
+            try:
+                genai.configure(api_key=api_key)
+                model = genai.GenerativeModel("gemini-1.5-flash")
+                prompt = (
+                    f"You are NeuroBot, a smart, conversational financial AI agent for a credit risk platform. "
+                    f"Respond directly, helpfully, and dynamically to the user's message. Use formatting where appropriate.\n\n"
+                    f"Message: \"{req.query}\"\n"
+                    f"Response:"
+                )
+                response = model.generate_content(prompt)
+                return ChatResponse(intent=intent, answer=response.text.strip())
+            except Exception as e:
+                print(f"NeuroBot General Chat: Gemini execution failed: {e}")
+                
+        # Rule-based fallback conversational response
+        q_low = req.query.lower()
+        if "hello" in q_low or "hi" in q_low or "hey" in q_low:
+            answer = "Hello! I am NeuroBot, your AI financial decision assistant. How can I help you today? You can ask me to analyze credit risk, calculate loan EMIs, or review uploaded KYC documents!"
+        elif "who are you" in q_low or "what is" in q_low:
+            answer = "I am NeuroBot, a hybrid Decision Intelligence chatbot. I help loan officers assess default risks, calculate debt affordability, and verify bank statements or payslips using AI models."
+        else:
+            answer = "I am here to help you make credit risk decisions! You can ask me questions like: 'What is the risk for customer 100002?', 'Calculate EMI for 8 lakh', or 'Analyze the document I uploaded'."
+        return ChatResponse(intent=intent, answer=answer)
             
     return ChatResponse(intent="Unknown", answer="I'm sorry, I couldn't route your request. Please ask about loan risk, calculator details, or KYC document requirements.")

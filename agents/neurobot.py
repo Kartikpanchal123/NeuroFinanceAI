@@ -22,7 +22,7 @@ class NeuroBotRouter:
             print("NeuroBot Router Warning: GEMINI_API_KEY is missing. Using local rule-based intent router.")
 
     def route_intent(self, query):
-        """Routes the user's query to 'RISK', 'RAG', 'FINANCE', or 'DOCUMENT'."""
+        """Routes the user's query to 'RISK', 'RAG', 'FINANCE', 'DOCUMENT', or 'GENERAL'."""
         query_lower = query.lower()
         
         # 1. Check Gemini-based classification if available
@@ -32,15 +32,16 @@ class NeuroBotRouter:
                 f"- RISK: If the user is asking to assess loan/default risk, explain risk factors, or predict credit probability.\n"
                 f"- RAG: If the user is asking about banking policies, RBI regulations, required documents, or general credit rules.\n"
                 f"- FINANCE: If the user is asking to calculate loan EMIs, interest rates, monthly payments, or loan affordability.\n"
-                f"- DOCUMENT: If the user is asking to analyze an uploaded financial document (like a payslip or bank statement), extract fields, or run OCR validation risk checks.\n\n"
-                f"Output ONLY the word: RISK, RAG, FINANCE, or DOCUMENT.\n\n"
+                f"- DOCUMENT: If the user is asking to analyze an uploaded financial document (like a payslip or bank statement), extract fields, or run OCR validation risk checks.\n"
+                f"- GENERAL: If the query is a greeting, general conversation, or general financial questions not covered by specific guidelines.\n\n"
+                f"Output ONLY the word: RISK, RAG, FINANCE, DOCUMENT, or GENERAL.\n\n"
                 f"Query: \"{query}\"\n"
                 f"Label:"
             )
             try:
                 response = self.model.generate_content(prompt)
                 label = response.text.strip().upper()
-                if label in ["RISK", "RAG", "FINANCE", "DOCUMENT"]:
+                if label in ["RISK", "RAG", "FINANCE", "DOCUMENT", "GENERAL"]:
                     return label
             except Exception as e:
                 print(f"NeuroBot Router: Gemini routing failed, using rule-based fallback: {e}")
@@ -55,6 +56,9 @@ class NeuroBotRouter:
         # Risk detection
         if any(kw in query_lower for kw in ["risk", "default", "assess", "score", "probability", "repay risk", "credit status"]):
             return "RISK"
+        # Conversational greetings/general help checks
+        if any(kw in query_lower for kw in ["hi", "hello", "hey", "who are you", "help", "greet", "how are you", "what is"]):
+            return "GENERAL"
         # Default to RAG
         return "RAG"
 
